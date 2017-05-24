@@ -77,6 +77,136 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
   }
 }
 
+void scanline(struct matrix * polygons, int index, screen s){
+  int indtop, indmid, indbot;
+  indtop = find_top(polygons, index); indmid = find_mid(polygons, index); indtop = find_bot(polygons, index); 
+
+  int xt, xm, xb;
+  xt = polygons->m[0][indtop]; xm = polygons->m[0][indmid]; xb = polygons->m[0][indbot];
+  
+  int yt, ym, yb;
+  yt = polygons->m[1][indtop]; ym = polygons->m[1][indmid]; yb = polygons->m[1][indbot];
+
+  int dy;
+  
+  for(dy=yb;dy<ym;dy++){
+
+  }
+  
+}
+
+int find_top(struct matrix * polygons, int index){
+  int ret; ret = index;
+  int ax, bx, cx;
+  ax = polygons->m[0][index]; bx = polygons->m[0][index+1]; cx = polygons->m[0][index+2];
+
+  int ay, by, cy;
+  ay = polygons->m[1][index]; by = polygons->m[1][index+1]; cy = polygons->m[1][index+2];
+
+  if(ay >= by && ay >= cy){
+    if(ay=by){
+      if(bx>ax){
+	ret += 1;
+      }
+    }
+    else if(ay=cy){
+      if(cx>ax){
+	ret += 2;
+      }
+    }
+  }
+  else if(by >= ay && by >= cy){
+    if(by=ay){
+      if(bx>ax){
+	ret += 1;
+      }
+    }
+    else if(by=cy){
+      if(cx>bx){
+	ret += 2;
+      }
+      else{
+	ret += 1;
+      }
+    }
+  }
+  else if(cy >= ay && cy >= by){
+    if(cy=ay){
+      if(cx>ax){
+	ret += 2;
+      }
+    }
+    else if(cy=by){
+      if(cx>bx){
+	ret += 2;
+      }
+      else{
+	ret += 1;
+      }
+    }
+  }
+  return ret;
+}
+
+int find_mid(struct matrix * polygons, int index){
+  return 3 * (index+3) - (find_top(polygons, index) + find_bot(polygons, index));
+}
+
+int find_bot(struct matrix * polygons, int index){
+  int ret; ret = index;
+  int ax, bx, cx;
+  ax = polygons->m[0][index]; bx = polygons->m[0][index+1]; cx = polygons->m[0][index+2];
+
+  int ay, by, cy;
+  ay = polygons->m[1][index]; by = polygons->m[1][index+1]; cy = polygons->m[1][index+2];
+
+  if(ay <= by && ay <= cy){
+    if(ay=by){
+      if(bx>ax){
+	ret += 1;
+      }
+    }
+    else if(ay=cy){
+      if(cx>ax){
+	ret += 2;
+      }
+    }
+  }
+  else if(by <= ay && by <= cy){
+    if(by=ay){
+      if(bx>ax){
+	ret += 1;
+      }
+    }
+    else if(by=cy){
+      if(cx>bx){
+	ret += 2;
+      }
+      else{
+	ret += 1;
+      }
+    }
+  }
+  else if(cy <= ay && cy <= by){
+    if(cy=ay){
+      if(cx>ax){
+	ret += 2;
+      }
+    }
+    else if(cy=by){
+      if(cx>bx){
+	ret += 2;
+      }
+      else{
+	ret += 1;
+      }
+    }
+  }
+  return ret;
+}
+
+
+
 /*======== void add_box() ==========
   Inputs:   struct matrix * edges
             double x

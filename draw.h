@@ -12,6 +12,12 @@ void add_polygons( struct matrix * points,
 		   double x2, double y2, double z2);
 void draw_polygons( struct matrix * points, screen s, color c);
 
+void scanline(struct matrix * polygons, int index, screen s);
+
+int find_top(struct matrix * polygons, int index);
+int find_mid(struct matrix * polygons, int index);
+int find_bot(struct matrix * polygons, int index);
+
 //3d shapes
 void add_box( struct matrix * edges,
 	      double x, double y, double z,
