@@ -80,18 +80,18 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 }
 
 void scanline(struct matrix * polygons, int index, screen s){
-  printf("STARTSCAN\n");
+  /* printf("STARTSCAN\n"); */
   color c;
 
   int indtop, indmid, indbot;
   indtop = find_top(polygons, index); indmid = find_mid(polygons, index); indbot = find_bot(polygons, index); 
 
-  printf("\n======Index: %d======\n", index);
+  /* printf("\n======Index: %d======\n", index); */
   
-  printf("\nindtop: %d, indmid: %d, indbot: %d\n", indtop, indmid, indbot);
+  /* printf("\nindtop: %d, indmid: %d, indbot: %d\n", indtop, indmid, indbot); */
   
-  printf("Got here\n");
-  fflush(stdout);
+  /* printf("Got here\n"); */
+  /* fflush(stdout); */
 
   int xt, xm, xb;
   xt = polygons->m[0][indtop]; xm = polygons->m[0][indmid]; xb = polygons->m[0][indbot];
@@ -104,10 +104,10 @@ void scanline(struct matrix * polygons, int index, screen s){
   dy = ym - yb;
   int i;
 
-  printf("===dy: %d===\n", dy);
-  printf("===diftb: %d===\n", yt-yb);
-  printf("===diftm: %d===\n", yt-ym);
-  printf("===difmb: %d===\n", ym-yb);
+  /* printf("===dy: %d===\n", dy); */
+  /* printf("===diftb: %d===\n", yt-yb); */
+  /* printf("===diftm: %d===\n", yt-ym); */
+  /* printf("===difmb: %d===\n", ym-yb); */
   
   double dxmb, dxtb, dxtm;
 
@@ -116,12 +116,13 @@ void scanline(struct matrix * polygons, int index, screen s){
   c.blue = ((xb * yb) + 128) % 256;
 
   if(yt-yb != 0){
-    printf("error here\n");
+    /* printf("error here\n"); */
     if(dy != 0){
-      dxmb = (xm-xb)/(ym-yb);
-      dxtb = (xt-xb)/(yt-yb);
+      /* printf("ym-yb != 0\n"); */
+      dxmb = ((double)(xm-xb))/((double)(ym-yb));
+      dxtb = ((double)(xt-xb))/((double)(yt-yb));
       for(i=0;i<dy;i++){
-	printf("%lf %d %lf %d\n", xb + i*dxmb, yb+i, xb + i*dxtb, yb+i);
+	/* printf("%lf %d %lf %d\n", xb + i*dxmb, yb+i, xb + i*dxtb, yb+i); */
 	draw_line(xb + i * dxmb,
 		  yb+i,
 		  xb + i * dxtb,
@@ -130,19 +131,23 @@ void scanline(struct matrix * polygons, int index, screen s){
       }
     }
 
-    printf("error here\n");
+    /* printf("error here\n"); */
     dy = yt - ym;
     
     if(dy != 0){
-    printf("error here\n");
-      dxtb = (xt-xb)/(yt-yb);
-      dxtm = (xt-xm)/(yt-ym);
+      /* printf("yt-ym != 0\n"); */
+    /* printf("error here\n"); */
+      dxtb = ((double)(xt-xb))/((double)(yt-yb));
+      dxtm = ((double)(xt-xm))/((double)(yt-ym));
+      /* printf("dxtb: %lf, dxtm: %lf\n", dxtb, dxtm); */
+      /* printf("xt-xb: %d, yt-yb: %d\n", xt-xb, yt-yb); */
+      /* printf("xt-xm: %d, yt-ym: %d\n", xt-xm, yt-ym); */
       for(i=0;i<dy;i++){
-	printf("%lf %d %lf %d\n", xb + i*dxtm, yb+i, xb + i*dxtb, yb+i);
-	draw_line(xb + i * dxtm,
-		  yb+i,
-		  xb + i * dxtb,
-		  yb+i,
+	/* printf("%lf %d %lf %d\n", xm + i*dxtm, ym+i, xb + (ym-yb)*(((double)(xt-xb))/((double)(yt-yb))) + i*dxtb, ym+i); */
+	draw_line(xm + i * dxtm,
+		  ym+i,
+		  xb + (ym-yb)*(((double)(xt-xb))/((double)(yt-yb))) + i*dxtb,
+		  ym+i,
 		  s, c);
       }
     }
@@ -158,7 +163,7 @@ void scanline(struct matrix * polygons, int index, screen s){
 }
 
 int find_top(struct matrix * polygons, int index){
-  printf("---Find_Top---\n");
+  /* printf("---Find_Top---\n"); */
   int ret; ret = index;
   int ax, bx, cx;
   ax = polygons->m[0][index]; bx = polygons->m[0][index+1]; cx = polygons->m[0][index+2];
@@ -167,60 +172,60 @@ int find_top(struct matrix * polygons, int index){
   ay = polygons->m[1][index]; by = polygons->m[1][index+1]; cy = polygons->m[1][index+2];
 
   if(ay >= by && ay >= cy){
-    if(ay=by){
-      if(bx<ax){
-	ret += 1;
-      }
-    }
-    else if(ay=cy){
-      if(cx<ax){
-	ret += 2;
-      }
-    }
+    /* if(ay=by){ */
+    /*   if(bx<ax){ */
+	/* ret += 1; */
+    /*   } */
+    /* } */
+    /* else if(ay=cy){ */
+    /*   if(cx<ax){ */
+    /* 	ret += 2; */
+    /*   } */
+    /* } */
   }
   else if(by >= ay && by >= cy){
-    if(by=ay){
-      if(bx<ax){
+    /* if(by=ay){ */
+    /*   if(bx<ax){ */
 	ret += 1;
-      }
-    }
-    else if(by=cy){
-      if(cx<bx){
-	ret += 2;
-      }
-      else{
-	ret += 1;
-      }
-    }
+    /*   } */
+    /* } */
+    /* else if(by=cy){ */
+    /*   if(cx<bx){ */
+    /* 	ret += 2; */
+    /*   } */
+    /*   else{ */
+    /* 	ret += 1; */
+    /*   } */
+    /* } */
   }
   else if(cy >= ay && cy >= by){
-    if(cy=ay){
-      if(cx<ax){
+    /* if(cy=ay){ */
+    /*   if(cx<ax){ */
+    /* 	ret += 2; */
+    /*   } */
+    /* } */
+    /* else if(cy=by){ */
+    /*   if(cx<bx){ */
 	ret += 2;
-      }
-    }
-    else if(cy=by){
-      if(cx<bx){
-	ret += 2;
-      }
-      else{
-	ret += 1;
-      }
-    }
+    /*   } */
+    /*   else{ */
+    /* 	ret += 1; */
+    /*   } */
+    /* } */
   }
   return ret;
 }
 
 int find_mid(struct matrix * polygons, int index){
-  printf("---Find_Mid---\n");
-  printf("Index: %d\n",index);
-  printf("+++%d+++\n", find_top(polygons, index));
-  printf("+++%d+++\n", find_bot(polygons, index));
+  /* printf("---Find_Mid---\n"); */
+  /* printf("Index: %d\n",index); */
+  /* printf("+++%d+++\n", find_top(polygons, index)); */
+  /* printf("+++%d+++\n", find_bot(polygons, index)); */
   return 3 * (index+1) - (find_top(polygons, index) + find_bot(polygons, index));
 }
 
 int find_bot(struct matrix * polygons, int index){
-  printf("---Find_Bot---\n");
+  /* printf("---Find_Bot---\n"); */
   int ret; ret = index;
   int ax, bx, cx;
   ax = polygons->m[0][index]; bx = polygons->m[0][index+1]; cx = polygons->m[0][index+2];
@@ -228,59 +233,59 @@ int find_bot(struct matrix * polygons, int index){
   int ay, by, cy;
   ay = polygons->m[1][index]; by = polygons->m[1][index+1]; cy = polygons->m[1][index+2];
 
-  printf("index: %d\n", index);
-  fflush(stdout);
+  /* printf("index: %d\n", index); */
+  /* fflush(stdout); */
   
   if(ay <= by && ay <= cy){
-    if(ay=by){
-      if(bx>ax){
-	printf("1bx>ax\n");
-	ret += 1;
-      }
-    }
-    else if(ay=cy){
-      if(cx>ax){
-	printf("1cx>ax\n");
-	ret += 2;
-      }
-    }
+    /* if(ay=by){ */
+    /*   if(bx>ax){ */
+    /* 	printf("1bx>ax\n"); */
+    /* 	ret += 1; */
+    /*   } */
+    /* } */
+    /* else if(ay=cy){ */
+    /*   if(cx>ax){ */
+    /* 	printf("1cx>ax\n"); */
+    /* 	ret += 2; */
+    /*   } */
+    /* } */
   }
   else if(by <= ay && by <= cy){
-    if(by=ay){
-      if(bx>ax){
-	printf("2bx>ax\n");
+    /* if(by=ay){ */
+    /*   if(bx>ax){ */
+    /* 	printf("2bx>ax\n"); */
+    /* 	ret += 1; */
+    /*   } */
+    /* } */
+    /* else if(by=cy){ */
+    /*   if(cx>bx){ */
+    /* 	printf("1cx>bx\n"); */
+    /* 	ret += 2; */
+    /*   } */
+    /*   else{ */
 	ret += 1;
-      }
-    }
-    else if(by=cy){
-      if(cx>bx){
-	printf("1cx>bx\n");
-	ret += 2;
-      }
-      else{
-	ret += 1;
-      }
-    }
+    /*   } */
+    /* } */
   }
   else if(cy <= ay && cy <= by){
-    if(cy=ay){
-      if(cx>ax){
-	printf("2cx>ax\n");
+    /* if(cy=ay){ */
+    /*   if(cx>ax){ */
+    /* 	printf("2cx>ax\n"); */
 	ret += 2;
-      }
-    }
-    else if(cy=by){
-      if(cx>bx){
-	printf("2cx>bx\n");
-	ret += 2;
-      }
-      else{
-	ret += 1;
-      }
-    }
+    /*   } */
+    /* } */
+    /* else if(cy=by){ */
+    /*   if(cx>bx){ */
+    /* 	printf("2cx>bx\n"); */
+    /* 	ret += 2; */
+    /*   } */
+    /*   else{ */
+    /* 	ret += 1; */
+    /*   } */
+    /* } */
   }
-  printf("ret: %d\n", ret);
-  fflush(stdout);
+  /* printf("ret: %d\n", ret); */
+  /* fflush(stdout); */
   return ret;
 }
 

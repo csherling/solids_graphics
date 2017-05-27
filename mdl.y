@@ -789,6 +789,6 @@ int main(int argc, char **argv) {
   
   //print_pcode();
   my_main();
-
-  return 0;    
+  exit(0);
+  return 0;
 }

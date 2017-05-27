@@ -214,6 +214,7 @@ void print_matrix(struct matrix *m) {
       printf("%0.2f ", m->m[r][c]);
     printf("\n");
   }
+  fflush(stdout);
 }//end print_matrix
 
 /*-------------- void ident() --------------
